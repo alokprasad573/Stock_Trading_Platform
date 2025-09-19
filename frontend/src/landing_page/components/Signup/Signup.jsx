@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Signup() {
     const [form, setForm] = useState({ name: '', email: '', password: '' });
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
+
+    window.location.href = 'http://localhost:5174/dashboard';
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -11,17 +15,25 @@ export default function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
         try {
             const response = await fetch('http://localhost:8080/auth/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(form),
             });
-            const result = await response.text();
-            console.log(result);
+            const result = await response.json();
+            if (response.status === 409) {
+                setError(result.error || 'User already exists');
+            } else if (result.token) {
+                localStorage.setItem('token', result.token);
+                navigate(window.location.href);
+            } else {
+                setError(result.error || 'Signup failed');
+            }
         } catch (error) {
-            console.error('Error sending data:', error);
-        } // ✅ Fixed: Added missing closing brace here
+            setError('Server error. Please try again later.');
+        }
     };
 
     return (
@@ -64,6 +76,7 @@ export default function Signup() {
                         required
                     />
                 </div>
+                {error && <div className="alert alert-danger">{error}</div>}
                 <button type="submit" className="btn btn-primary w-100">Sign up</button>
                 <p style={{ textAlign: 'center' }}>
                     Already have an account? <Link to="/signin">Sign in</Link>

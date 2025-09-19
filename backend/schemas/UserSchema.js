@@ -13,13 +13,6 @@ const UserSchema = new Schema({
         type: String,
         required: [true, 'password is required']
     },
-    otp: {
-        type: String,
-        required: [true, 'OTP is required'],
-        createdAt: {
-            type: Date,
-            default: Date.now,
-            expires: 300
-        }
-    }
-})
+}, { timestamps: true })
+
+module.exports = UserSchema
