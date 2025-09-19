@@ -1,0 +1,41 @@
+body {
+    margin: 0;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.nav-link {
+    margin-left: 2rem;
+}
+
+.btn-hover-black:hover {
+    background-color: black !important;
+}
+
+section {
+    background-color: rgb(56, 126, 209);
+    color: white;
+}
+
+
+#support_wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 150px;
+}
+
+#support_wrapper a {
+    color: white;
+}
+
+#support_wrapper input {
+    margin:  1rem 0 1rem 0;
+    padding: 20px 30px;
+    width: 100%;
+    font-size: 20px;
+    border-radius: 10px;
+    border: none;
+}
+
